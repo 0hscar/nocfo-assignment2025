@@ -1,6 +1,7 @@
-# Welcome to your Expo app 👋
+# Nocfo Assignment, Created with Expo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`] 
+I chose Expo as it enables a fast cycle to develop React Native apps, plus Expo Go makes it quite easy to real-time develop the app.
 
 ## Get started
 
@@ -21,30 +22,21 @@ In the output, you'll find options to open the app in a
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)
 - [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [Expo Go](https://expo.dev/go), a limited sandbox while developing. Works just fine to check this app. I used Expo Go and Web for this app, testing the camera in the web was a little tricky hence Expo Go.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+This project uses [file-based routing](https://docs.expo.dev/router/introduction) <-- Expo documentation got everything you will need, and it was needed. 
+Was going to use react-navigation with screens, but default template had something else planned for me.
 
-## Get a fresh project
+## Technical decisions
 
-When you're ready, run:
+I chose to implement dark and light themes as the template already included ThemedText and ThemedView. Which is also why ThemedTextInput shares a mighty resemblance as it only required minor changes.
+Both Button components does use the themes even though only one is name "Themed..." (Included as a comment why there even are two seperate components).
 
-```bash
-npm run reset-project
-```
+As per standard practices, multiple uses --> component / function. For this app there weren't that many times something was used multiple times (Buttons were most used). When it grows in size, more weight is added to standard practices and everything you can fit into /components/ will be there.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+file-based routing might look a little scary but it's quite nice in all honesty. The /(tabs)/ directory (parenthesis means a group) contains all screens that are accessible from the bottom nav-bar. As this app didn't require that many "screens", the rest is located in the /flowers/ directory which would contain everything related to flowers. It's easy and scalable to organize it. The [id].tsx is the Detail view screen where the specific plant ID is passed along when navigating to the screen --> item specific details.
 
-## Learn more
+Screenshots in "screenshots" folder, excuse my unfocused camera. EditView is the same as Details, it's done in the same place.
 
-To learn more about developing your project with Expo, look at the following resources:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

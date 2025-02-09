@@ -1,74 +1,98 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+// Home screen
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { FlatList } from 'react-native';
+import { usePlantContext } from '@/context/PlantContext';
+import { router } from 'expo-router';
+import ThemeButton from '@/components/ThemeButton';
+
+
 
 export default function HomeScreen() {
+  const { plants } = usePlantContext() // Get plants
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <ThemedView style={styles.screenContainer}>
+      <ThemedView style={styles.container}>
+
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="title">All Plants</ThemedText>
+        </ThemedView>
+
+        <FlatList
+          data={plants}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => router.push(`/flowers/${item.id}`)}> {/* Make plant clickable --> navigate to detailed view */}
+
+              <ThemedView style={styles.plantContainer}> {/* Plant container */}
+
+                <ThemedView style={{ width: "20%", maxHeight: 400 }}> {/* Plant Photo container */}
+                  <Image source={{ uri: item.photo }} style={styles.plantPhoto} />
+                </ThemedView>
+
+                <ThemedView style={styles.plantTextContainer}> {/* Plant text container */}
+                  <ThemedText style={styles.plantText}>{item.name}</ThemedText> {/* Plant name */}
+
+                  <ThemedText style={{ textAlign: "center" }}>{ // Plant date
+                    new Date(item.date).toLocaleDateString("en-UK", { // Visually better than unformatted "yyyy-mm-ddThh-mm-ss-nnnZ"
+                      weekday: "long",
+                      month: "long",
+                      year: "numeric",
+                      day: "numeric"
+                    })
+                  }
+                  </ThemedText>
+                </ThemedView>
+
+              </ThemedView>
+
+            </TouchableOpacity>)}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+
+        <ThemedView style={{ bottom: 0 }}> {/* In container for better position control */}
+          <ThemeButton func={() => router.push("/flowers/newFlower")} text={"Add new Flower"} /> {/* New flower button */}
+        </ThemedView>
+
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    </ThemedView>
+
+  )
 }
 
 const styles = StyleSheet.create({
+  screenContainer: {
+    height: "100%",
+  },
+  container: {
+    marginTop: 30, // Quick fix for indented screens (OnePlus 7t for example)
+    height: "95%"
+
+  },
+  plantContainer: {
+    flexDirection: "row",
+    width: "95%",
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+  plantPhoto: {
+    width: "100%",
+    height: 100,
+    borderRadius: 10 //smooth corners
+  },
+  plantTextContainer: {
+    backgroundColor: "gray", 
+    width: "80%", 
+    justifyContent: "center", 
+    borderRadius: 10
+  },
+  plantText: { //Both date and name
+    textAlign: "center"
+  },
+
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    marginTop: 10
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  
 });

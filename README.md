@@ -5,13 +5,22 @@ I chose Expo as it enables a fast cycle to develop React Native apps, plus Expo 
 
 ## Get started
 
-1. Install dependencies
+
+1. Clone repo / Download + unzip
+
+2. Move to newly cloned directory
+
+   ```bash
+   cd nocfo-assignment2025
+   ```
+
+3. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+4. Start the app
 
    ```bash
     npx expo start
